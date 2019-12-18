@@ -29,7 +29,18 @@ CREATE TABLE companies (
 	mail varchar(40),
 	adress varchar(50),
 	workSector varchar(15)
-)
+);
+
+CREATE TABLE messages (
+	senderID int(6) not null,
+	receiverID int(6) not null,
+	mesageID int(6) not null primary key auto_increment,
+	content text,
+	sentDate date,
+	PRIMARY KEY(messageID),
+	FOREIGN KEY(senderID) REFERENCES students(id),
+	FOREIGN KEY(receiverID) REFERENCES students(id)
+);
 
 CREATE TABLE friendship (
 	user1_id            INT NOT NULL,
