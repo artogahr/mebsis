@@ -6,6 +6,7 @@ if (!isset($_SESSION['id'])) {
     header("location:index.php");
 }
 $temp = $_SESSION['id'];
+echo($_SESSION['id']);
 session_destroy();
 session_start();
 $_SESSION['id'] = $temp;

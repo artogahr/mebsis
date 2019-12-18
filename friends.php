@@ -2,7 +2,7 @@
 require 'functions/functions.php';
 session_start();
 // Check whether user is logged on or not
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['id'])) {
     header("location:index.php");
 }
 // Establish Database Connection
@@ -30,18 +30,18 @@ $conn = connect();
         <h1>Friends</h1>
         <?php
             echo '<center>'; 
-            $sql = "SELECT users.user_id, users.user_firstname, users.user_lastname, users.user_gender
+            $sql = "SELECT users.id, users.user_firstname, users.user_lastname, users.user_gender
                     FROM users
                     JOIN (
-                        SELECT friendship.user1_id AS user_id
+                        SELECT friendship.user1_id AS id
                         FROM friendship
-                        WHERE friendship.user2_id = {$_SESSION['user_id']} AND friendship.friendship_status = 1
+                        WHERE friendship.user2_id = {$_SESSION['id']} AND friendship.friendship_status = 1
                         UNION
-                        SELECT friendship.user2_id AS user_id
+                        SELECT friendship.user2_id AS id
                         FROM friendship
-                        WHERE friendship.user1_id = {$_SESSION['user_id']} AND friendship.friendship_status = 1
+                        WHERE friendship.user1_id = {$_SESSION['id']} AND friendship.friendship_status = 1
                     ) userfriends
-                    ON userfriends.user_id = users.user_id";
+                    ON userfriends.id = users.id";
             $query = mysqli_query($conn, $sql);
             $width = '168px';
             $height = '168px';
@@ -56,7 +56,7 @@ $conn = connect();
                     echo '<center>';
                     include 'includes/profile_picture.php';
                     echo '<br>';
-                    echo '<a href="profile.php?id=' . $row['user_id'] . '">' . $row['user_firstname'] . ' ' . $row['user_lastname'] . '</a>';
+                    echo '<a href="profile.php?id=' . $row['id'] . '">' . $row['user_firstname'] . ' ' . $row['user_lastname'] . '</a>';
                     echo '</center>';
                     echo '</div>';
                     }

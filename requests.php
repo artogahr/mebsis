@@ -2,7 +2,7 @@
 require 'functions/functions.php';
 session_start();
 // Check whether user is logged on or not
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['id'])) {
     header("location:index.php");
 }
 // Establish Database Connection
@@ -25,7 +25,7 @@ $conn = connect();
             if (isset($_GET['accept'])) {
                 $sql = "UPDATE friendship
                         SET friendship.friendship_status = 1
-                        WHERE friendship.user1_id = {$_GET['id']} AND friendship.user2_id = {$_SESSION['user_id']}";
+                        WHERE friendship.user1_id = {$_GET['id']} AND friendship.user2_id = {$_SESSION['id']}";
                 $query = mysqli_query($conn, $sql);
                 if($query){
                     echo '<div class="userquery">';
@@ -42,7 +42,7 @@ $conn = connect();
                 }
             } else if(isset($_GET['ignore'])) {
                 $sql6 = "DELETE FROM friendship
-                        WHERE friendship.user1_id = {$_GET['id']} AND friendship.user2_id = {$_SESSION['user_id']}";
+                        WHERE friendship.user1_id = {$_GET['id']} AND friendship.user2_id = {$_SESSION['id']}";
                 $query6 = mysqli_query($conn, $sql6);
                 if($query){
                     echo '<div class="userquery">';
@@ -59,10 +59,10 @@ $conn = connect();
         //
         ?>
         <?php
-        $sql = "SELECT users.user_gender, users.user_id, users.user_firstname, users.user_lastname
+        $sql = "SELECT users.user_gender, users.id, users.user_firstname, users.user_lastname
                 FROM users
                 JOIN friendship
-                ON friendship.user2_id = {$_SESSION['user_id']} AND friendship.friendship_status = 0 AND friendship.user1_id = users.user_id";
+                ON friendship.user2_id = {$_SESSION['id']} AND friendship.friendship_status = 0 AND friendship.user1_id = users.id";
         $query = mysqli_query($conn, $sql);
         $width = '168px';
         $height = '168px';
@@ -79,9 +79,9 @@ $conn = connect();
                 echo '<div class="userquery">';
                 include 'includes/profile_picture.php';
                 echo '<br>';
-                echo '<a class="profilelink" href="profile.php?id=' . $row['user_id'] .'">' . $row['user_firstname'] . ' ' . $row['user_lastname'] . '<a>';
+                echo '<a class="profilelink" href="profile.php?id=' . $row['id'] .'">' . $row['user_firstname'] . ' ' . $row['user_lastname'] . '<a>';
                 echo '<form method="get" action="requests.php">';
-                echo '<input type="hidden" name="id" value="' . $row['user_id'] . '">';
+                echo '<input type="hidden" name="id" value="' . $row['id'] . '">';
                 echo '<input type="hidden" name="name" value="' . $row['user_firstname'] . '">';
                 echo '<input type="submit" value="Accept" name="accept">';
                 echo '<br><br>';

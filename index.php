@@ -29,7 +29,7 @@ ob_start();
 </head>
 
 <body>
-    <h1>KTÜ Mezun Bilgi Sistemi</h1>
+    <h1>KTÜ Maksjdasjfezun Bilgi Sistemi</h1>
     <div class="container">
         <div class="tab">
             <button class="tablink active" onclick="openTab(event,'signin')" id="link1">Login</button>
